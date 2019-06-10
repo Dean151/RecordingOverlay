@@ -12,18 +12,18 @@
 		718B405022ADD63D000CE61C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 718B404E22ADD63D000CE61C /* Main.storyboard */; };
 		718B405222ADD63E000CE61C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 718B405122ADD63E000CE61C /* Assets.xcassets */; };
 		718B405522ADD63E000CE61C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 718B405322ADD63E000CE61C /* LaunchScreen.storyboard */; };
-		718B405F22ADD707000CE61C /* RecordingOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 718B405E22ADD707000CE61C /* RecordingOverlay */; };
+		718B406322ADDF97000CE61C /* RecordingOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 718B406222ADDF97000CE61C /* RecordingOverlay */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		718B404522ADD63D000CE61C /* SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		718B404522ADD63D000CE61C /* SampleiOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleiOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		718B404822ADD63D000CE61C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		718B404C22ADD63D000CE61C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		718B404F22ADD63D000CE61C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		718B405122ADD63E000CE61C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		718B405422ADD63E000CE61C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		718B405622ADD63E000CE61C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		718B405C22ADD678000CE61C /* RecordingOverlay */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RecordingOverlay; path = ../RecordingOverlay; sourceTree = "<group>"; };
+		718B406122ADDF7A000CE61C /* RecordingOverlay */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RecordingOverlay; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,7 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				718B405F22ADD707000CE61C /* RecordingOverlay in Frameworks */,
+				718B406322ADDF97000CE61C /* RecordingOverlay in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,9 +41,9 @@
 		718B403C22ADD63D000CE61C = {
 			isa = PBXGroup;
 			children = (
-				718B404722ADD63D000CE61C /* SampleApp */,
+				718B406122ADDF7A000CE61C /* RecordingOverlay */,
+				718B404722ADD63D000CE61C /* SampleiOSApp */,
 				718B404622ADD63D000CE61C /* Products */,
-				718B405C22ADD678000CE61C /* RecordingOverlay */,
 				718B405D22ADD707000CE61C /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -51,12 +51,12 @@
 		718B404622ADD63D000CE61C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				718B404522ADD63D000CE61C /* SampleApp.app */,
+				718B404522ADD63D000CE61C /* SampleiOSApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		718B404722ADD63D000CE61C /* SampleApp */ = {
+		718B404722ADD63D000CE61C /* SampleiOSApp */ = {
 			isa = PBXGroup;
 			children = (
 				718B404822ADD63D000CE61C /* AppDelegate.swift */,
@@ -66,7 +66,7 @@
 				718B405322ADD63E000CE61C /* LaunchScreen.storyboard */,
 				718B405622ADD63E000CE61C /* Info.plist */,
 			);
-			path = SampleApp;
+			path = SampleiOSApp;
 			sourceTree = "<group>";
 		};
 		718B405D22ADD707000CE61C /* Frameworks */ = {
@@ -79,9 +79,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		718B404422ADD63D000CE61C /* SampleApp */ = {
+		718B404422ADD63D000CE61C /* SampleiOSApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 718B405922ADD63E000CE61C /* Build configuration list for PBXNativeTarget "SampleApp" */;
+			buildConfigurationList = 718B405922ADD63E000CE61C /* Build configuration list for PBXNativeTarget "SampleiOSApp" */;
 			buildPhases = (
 				718B404122ADD63D000CE61C /* Sources */,
 				718B404222ADD63D000CE61C /* Frameworks */,
@@ -91,12 +91,12 @@
 			);
 			dependencies = (
 			);
-			name = SampleApp;
+			name = SampleiOSApp;
 			packageProductDependencies = (
-				718B405E22ADD707000CE61C /* RecordingOverlay */,
+				718B406222ADDF97000CE61C /* RecordingOverlay */,
 			);
 			productName = SampleApp;
-			productReference = 718B404522ADD63D000CE61C /* SampleApp.app */;
+			productReference = 718B404522ADD63D000CE61C /* SampleiOSApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -114,7 +114,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 718B404022ADD63D000CE61C /* Build configuration list for PBXProject "SampleApp" */;
+			buildConfigurationList = 718B404022ADD63D000CE61C /* Build configuration list for PBXProject "RecordingOverlay" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -127,7 +127,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				718B404422ADD63D000CE61C /* SampleApp */,
+				718B404422ADD63D000CE61C /* SampleiOSApp */,
 			);
 		};
 /* End PBXProject section */
@@ -297,7 +297,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6EL5V5QVB4;
-				INFOPLIST_FILE = SampleApp/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/SampleiOSApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -317,7 +317,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6EL5V5QVB4;
-				INFOPLIST_FILE = SampleApp/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/SampleiOSApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -334,7 +334,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		718B404022ADD63D000CE61C /* Build configuration list for PBXProject "SampleApp" */ = {
+		718B404022ADD63D000CE61C /* Build configuration list for PBXProject "RecordingOverlay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				718B405722ADD63E000CE61C /* Debug */,
@@ -343,7 +343,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		718B405922ADD63E000CE61C /* Build configuration list for PBXNativeTarget "SampleApp" */ = {
+		718B405922ADD63E000CE61C /* Build configuration list for PBXNativeTarget "SampleiOSApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				718B405A22ADD63E000CE61C /* Debug */,
@@ -355,7 +355,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		718B405E22ADD707000CE61C /* RecordingOverlay */ = {
+		718B406222ADDF97000CE61C /* RecordingOverlay */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RecordingOverlay;
 		};
