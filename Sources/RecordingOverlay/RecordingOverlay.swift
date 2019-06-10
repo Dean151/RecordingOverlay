@@ -37,8 +37,17 @@ extension RecordingOverlay {
 /// Also, the all interactions can be disabled for the end-user by setting isInteractionsUnderneafDisabled at true
 public final class RecordingOverlayWindow: UIWindow {
 
-    public var isAnimated: Bool = true
-    public var color: UIColor = .red
+    var animation: CAKeyframeAnimation?
+    public var isAnimated: Bool = true {
+        didSet {
+            update()
+        }
+    }
+    public var color: UIColor = .red {
+        didSet {
+            update()
+        }
+    }
     public var isInteractionsUnderneafDisabled: Bool = false
 
     public override init(frame: CGRect) {
@@ -60,11 +69,26 @@ public final class RecordingOverlayWindow: UIWindow {
 
     func initialize() {
         layer.borderWidth = 6
+
+        let animation = CAKeyframeAnimation(keyPath: "opacity")
+        animation.values = [1, 0.7, 0.5, 1]
+        animation.duration = 2
+        animation.repeatCount = .greatestFiniteMagnitude
+        animation.isRemovedOnCompletion = false
+        layer.add(animation, forKey: "breathe")
+        self.animation = animation
+
         update()
     }
 
     func update() {
         layer.borderColor = color.cgColor
+        if isAnimated {
+            layer.speed = 1
+        } else {
+            layer.speed = 0
+            layer.timeOffset = 0
+        }
     }
 
     public override var isOpaque: Bool {
