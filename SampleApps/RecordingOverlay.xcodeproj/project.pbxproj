@@ -13,6 +13,11 @@
 		718B405222ADD63E000CE61C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 718B405122ADD63E000CE61C /* Assets.xcassets */; };
 		718B405522ADD63E000CE61C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 718B405322ADD63E000CE61C /* LaunchScreen.storyboard */; };
 		718B406322ADDF97000CE61C /* RecordingOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 718B406222ADDF97000CE61C /* RecordingOverlay */; };
+		718B407022ADE088000CE61C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 718B406E22ADE088000CE61C /* Main.storyboard */; };
+		718B407222ADE08A000CE61C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 718B407122ADE08A000CE61C /* Assets.xcassets */; };
+		718B407722ADE09E000CE61C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B404C22ADD63D000CE61C /* ViewController.swift */; };
+		718B407822ADE0B6000CE61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B404822ADD63D000CE61C /* AppDelegate.swift */; };
+		718B407A22ADE13F000CE61C /* RecordingOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 718B407922ADE13F000CE61C /* RecordingOverlay */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,10 @@
 		718B405422ADD63E000CE61C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		718B405622ADD63E000CE61C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		718B406122ADDF7A000CE61C /* RecordingOverlay */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RecordingOverlay; path = ..; sourceTree = "<group>"; };
+		718B406822ADE088000CE61C /* SampleTvOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleTvOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		718B406F22ADE088000CE61C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		718B407122ADE08A000CE61C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		718B407322ADE08A000CE61C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +44,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		718B406522ADE088000CE61C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				718B407A22ADE13F000CE61C /* RecordingOverlay in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -43,6 +60,7 @@
 			children = (
 				718B406122ADDF7A000CE61C /* RecordingOverlay */,
 				718B404722ADD63D000CE61C /* SampleiOSApp */,
+				718B406922ADE088000CE61C /* SampleTvOSApp */,
 				718B404622ADD63D000CE61C /* Products */,
 				718B405D22ADD707000CE61C /* Frameworks */,
 			);
@@ -52,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				718B404522ADD63D000CE61C /* SampleiOSApp.app */,
+				718B406822ADE088000CE61C /* SampleTvOSApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -74,6 +93,16 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		718B406922ADE088000CE61C /* SampleTvOSApp */ = {
+			isa = PBXGroup;
+			children = (
+				718B406E22ADE088000CE61C /* Main.storyboard */,
+				718B407122ADE08A000CE61C /* Assets.xcassets */,
+				718B407322ADE08A000CE61C /* Info.plist */,
+			);
+			path = SampleTvOSApp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -99,6 +128,26 @@
 			productReference = 718B404522ADD63D000CE61C /* SampleiOSApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		718B406722ADE088000CE61C /* SampleTvOSApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 718B407422ADE08A000CE61C /* Build configuration list for PBXNativeTarget "SampleTvOSApp" */;
+			buildPhases = (
+				718B406422ADE088000CE61C /* Sources */,
+				718B406522ADE088000CE61C /* Frameworks */,
+				718B406622ADE088000CE61C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SampleTvOSApp;
+			packageProductDependencies = (
+				718B407922ADE13F000CE61C /* RecordingOverlay */,
+			);
+			productName = SampleTvOSApp;
+			productReference = 718B406822ADE088000CE61C /* SampleTvOSApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -110,6 +159,9 @@
 				ORGANIZATIONNAME = "Thomas DURAND";
 				TargetAttributes = {
 					718B404422ADD63D000CE61C = {
+						CreatedOnToolsVersion = 11.0;
+					};
+					718B406722ADE088000CE61C = {
 						CreatedOnToolsVersion = 11.0;
 					};
 				};
@@ -128,6 +180,7 @@
 			projectRoot = "";
 			targets = (
 				718B404422ADD63D000CE61C /* SampleiOSApp */,
+				718B406722ADE088000CE61C /* SampleTvOSApp */,
 			);
 		};
 /* End PBXProject section */
@@ -143,6 +196,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		718B406622ADE088000CE61C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				718B407222ADE08A000CE61C /* Assets.xcassets in Resources */,
+				718B407022ADE088000CE61C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -152,6 +214,15 @@
 			files = (
 				718B404D22ADD63D000CE61C /* ViewController.swift in Sources */,
 				718B404922ADD63D000CE61C /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		718B406422ADE088000CE61C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				718B407822ADE0B6000CE61C /* AppDelegate.swift in Sources */,
+				718B407722ADE09E000CE61C /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +243,14 @@
 				718B405422ADD63E000CE61C /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		718B406E22ADE088000CE61C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				718B406F22ADE088000CE61C /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -331,6 +410,48 @@
 			};
 			name = Release;
 		};
+		718B407522ADE08A000CE61C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6EL5V5QVB4;
+				INFOPLIST_FILE = SampleTvOSApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fr.thomasdurand.SampleTvOSApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
+			};
+			name = Debug;
+		};
+		718B407622ADE08A000CE61C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6EL5V5QVB4;
+				INFOPLIST_FILE = SampleTvOSApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fr.thomasdurand.SampleTvOSApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -352,10 +473,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		718B407422ADE08A000CE61C /* Build configuration list for PBXNativeTarget "SampleTvOSApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				718B407522ADE08A000CE61C /* Debug */,
+				718B407622ADE08A000CE61C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		718B406222ADDF97000CE61C /* RecordingOverlay */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RecordingOverlay;
+		};
+		718B407922ADE13F000CE61C /* RecordingOverlay */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RecordingOverlay;
 		};
