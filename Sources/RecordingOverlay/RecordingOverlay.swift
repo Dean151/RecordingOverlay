@@ -1,6 +1,7 @@
 
 import UIKit
 
+/// Interface exposing a few helpers to show an overlay quickly
 public final class RecordingOverlay {
 
     static var overlay: RecordingOverlayWindow?
@@ -40,19 +41,36 @@ public final class RecordingOverlayWindow: UIWindow {
     public var color: UIColor = .red
     public var isInteractionsUnderneafDisabled: Bool = false
 
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        initialize()
+    }
+
+    public required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        initialize()
+    }
+
+    @available(iOS 13.0, *)
+    public override init(windowScene: UIWindowScene) {
+        super.init(windowScene: windowScene)
+        initialize()
+    }
+
+    func initialize() {
+        layer.borderWidth = 6
+        update()
+    }
+
+    func update() {
+        layer.borderColor = color.cgColor
+    }
+
     public override var isOpaque: Bool {
         get {
             return false
         }
         set {}
-    }
-
-    public override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext() else {
-            return
-        }
-        context.setFillColor(color.cgColor)
-        context.fill(CGRect(x: 0, y: 0, width: 50, height: 50))
     }
 
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
