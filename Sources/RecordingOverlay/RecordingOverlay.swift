@@ -6,7 +6,7 @@ public final class RecordingOverlay {
 
     static var overlay: RecordingOverlayWindow?
 
-    public static func enable(color: UIColor = .red, animated: Bool = true) {
+    public static func enable(length: CGFloat = 6, color: UIColor = .red, animated: Bool = true) {
         guard let window = mainWindow else {
             return
         }
@@ -14,6 +14,7 @@ public final class RecordingOverlay {
         let overlay = RecordingOverlayWindow(frame: window.frame)
         overlay.isAnimated = animated
         overlay.color = color
+        overlay.length = length
         overlay.isHidden = false
         self.overlay = overlay
     }
@@ -37,21 +38,24 @@ extension RecordingOverlay {
 /// Also, the all interactions can be disabled for the end-user by setting isInteractionsUnderneafDisabled at true
 public final class RecordingOverlayWindow: UIWindow {
 
-    var animation: CAKeyframeAnimation?
-    public var isAnimated: Bool = true {
-        didSet {
-            update()
-        }
-    }
+    var length: CGFloat = 12
+
     public var color: UIColor = .red {
         didSet {
             update()
         }
     }
+
+    public var isAnimated: Bool = true {
+        didSet {
+            update()
+        }
+    }
+
     public var isInteractionsUnderneafDisabled: Bool = false
 
     public override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: -6, y: -6, width: frame.width + 12, height: frame.height + 12))
         initialize()
     }
 
@@ -68,20 +72,36 @@ public final class RecordingOverlayWindow: UIWindow {
     }
 
     func initialize() {
-        layer.borderWidth = 6
+        createAnimation()
+        if #available(iOS 11.0, *) {
+            adaptCorners()
+        }
+        update()
+    }
 
+    @available (iOS 11.0, *)
+    func adaptCorners() {
+        if safeAreaInsets.bottom > 0 {
+            layer.cornerRadius = safeAreaInsets.top
+
+            // EXCEPTION for iPhone XR that is weird
+            if safeAreaInsets.top == 44 && UIScreen.main.scale == 2 && UIScreen.main.nativeBounds.size == CGSize(width: 828, height: 1792) {
+                layer.cornerRadius += 4
+            }
+        }
+    }
+
+    func createAnimation() {
         let animation = CAKeyframeAnimation(keyPath: "opacity")
         animation.values = [1, 0.7, 0.5, 1]
         animation.duration = 2
         animation.repeatCount = .greatestFiniteMagnitude
         animation.isRemovedOnCompletion = false
         layer.add(animation, forKey: "breathe")
-        self.animation = animation
-
-        update()
     }
 
     func update() {
+        layer.borderWidth = length
         layer.borderColor = color.cgColor
         if isAnimated {
             layer.speed = 1
