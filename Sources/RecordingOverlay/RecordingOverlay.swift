@@ -52,6 +52,7 @@ public final class RecordingOverlayWindow: UIWindow {
     }
 
     @available(iOS 13.0, *)
+    @available(tvOS 13.0, *)
     public override init(windowScene: UIWindowScene) {
         super.init(windowScene: windowScene)
         initialize()

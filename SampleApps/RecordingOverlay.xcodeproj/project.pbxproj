@@ -15,9 +15,9 @@
 		718B406322ADDF97000CE61C /* RecordingOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 718B406222ADDF97000CE61C /* RecordingOverlay */; };
 		718B407022ADE088000CE61C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 718B406E22ADE088000CE61C /* Main.storyboard */; };
 		718B407222ADE08A000CE61C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 718B407122ADE08A000CE61C /* Assets.xcassets */; };
-		718B407722ADE09E000CE61C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B404C22ADD63D000CE61C /* ViewController.swift */; };
-		718B407822ADE0B6000CE61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B404822ADD63D000CE61C /* AppDelegate.swift */; };
 		718B407A22ADE13F000CE61C /* RecordingOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 718B407922ADE13F000CE61C /* RecordingOverlay */; };
+		718FA96522ADF88900E69662 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B404C22ADD63D000CE61C /* ViewController.swift */; };
+		718FA96622ADF88C00E69662 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B404822ADD63D000CE61C /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -221,8 +221,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				718B407822ADE0B6000CE61C /* AppDelegate.swift in Sources */,
-				718B407722ADE09E000CE61C /* ViewController.swift in Sources */,
+				718FA96622ADF88C00E69662 /* AppDelegate.swift in Sources */,
+				718FA96522ADF88900E69662 /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +427,7 @@
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 13.0;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -448,7 +448,7 @@
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 13.0;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};

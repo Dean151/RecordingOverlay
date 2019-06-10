@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="14810.11" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="appleTV" appearance="light"/>
     <dependencies>
+        <deployment identifier="tvOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14766.13"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,7 +28,7 @@
                                         <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
                                         <state key="normal" title="Add overlay"/>
                                         <connections>
-                                            <action selector="addOverlay" destination="BYZ-38-t0r" eventType="touchUpInside" id="V9B-Cm-Uc3"/>
+                                            <action selector="addOverlay" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="szK-si-PK7"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5E5-XQ-nAP">
@@ -35,7 +36,7 @@
                                         <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
                                         <state key="normal" title="Remove overlay"/>
                                         <connections>
-                                            <action selector="removeOverlay" destination="BYZ-38-t0r" eventType="touchUpInside" id="QTa-pr-LMN"/>
+                                            <action selector="removeOverlay" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="ydQ-x0-p0e"/>
                                         </connections>
                                     </button>
                                 </subviews>
