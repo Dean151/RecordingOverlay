@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>SampleTvOSApp.xcscheme_^#shared#^_</key>
+		<key>SampleTvOSApp.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>SampleiOSApp.xcscheme_^#shared#^_</key>
+		<key>SampleiOSApp.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
