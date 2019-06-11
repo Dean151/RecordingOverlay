@@ -1,26 +1,77 @@
 
 import UIKit
 
+// MARK: Public interface of the API
+
 /// Interface exposing a few helpers to show an overlay quickly
 public final class RecordingOverlay {
 
     static var overlay: RecordingOverlayWindow?
 
-    public static func enable(length: CGFloat = 6, color: UIColor = .red, animated: Bool = true) {
+    /// Will add, or replace the overlay with the specified parameters
+    /// - Parameter color: The color of the overlay's border. Defaults to .red
+    /// - Parameter length: The length of the visible border in points. Defaults to 6.0
+    /// - Parameter animated: Should the overlay have the "breathe" animation enabled. Defaults to true
+    /// - Parameter interactableUnderneaf: Should the interactions be enabled under the overlay? Defaults to true
+    public static func add(color: UIColor = .red, length: CGFloat = 6, animated: Bool = true, interactableUnderneaf: Bool = true) {
         guard let window = mainWindow else {
             return
         }
 
         let overlay = RecordingOverlayWindow(frame: window.frame)
-        overlay.isAnimated = animated
         overlay.color = color
         overlay.length = length
+        overlay.isAnimated = animated
+        overlay.isInteractableUnderneaf = interactableUnderneaf
+
         overlay.isHidden = false
         self.overlay = overlay
     }
 
-    public static func disable() {
+
+    /// Will remove any existing overlay, if any
+    public static func remove() {
         self.overlay?.isHidden = true
+        self.overlay = nil
+    }
+
+    /// The current color of the overlay
+    public static var color: UIColor {
+        get {
+            return overlay?.color ?? .clear
+        }
+        set {
+            overlay?.color = newValue
+        }
+    }
+
+    public static var length: CGFloat {
+        get {
+            return overlay?.length ?? 0
+        }
+        set {
+            overlay?.length = newValue
+        }
+    }
+
+    /// The animated state of the overlay
+    public static var isAnimated: Bool {
+        get {
+            return overlay?.isAnimated ?? false
+        }
+        set {
+            overlay?.isAnimated = newValue
+        }
+    }
+
+    /// The interaction state beneath the overlay
+    public static var isInteractableUnderneaf: Bool {
+        get {
+            return overlay?.isInteractableUnderneaf ?? true
+        }
+        set {
+            overlay?.isInteractableUnderneaf = newValue
+        }
     }
 }
 
@@ -28,58 +79,65 @@ public final class RecordingOverlay {
 
 extension RecordingOverlay {
     static var mainWindow: UIWindow? {
+        // TODO: handle window sessions
+
         return UIApplication.shared.delegate?.window ?? nil
     }
 }
 
-/// Subclass of UIWindow that create a "recording overlay" effect.
-/// Set isHidden to false to show ; and isHidden to true to hide.
-/// Animations can be disabled, and color can be customized
-/// Also, the all interactions can be disabled for the end-user by setting isInteractionsUnderneafDisabled at true
-public final class RecordingOverlayWindow: UIWindow {
+// MARK: Private subclass of UIWindow
 
-    var length: CGFloat = 12
+final class RecordingOverlayWindow: UIWindow {
 
-    public var color: UIColor = .red {
+    var length: CGFloat = 6 {
         didSet {
             update()
         }
     }
 
-    public var isAnimated: Bool = true {
+    var color: UIColor = .red {
         didSet {
             update()
         }
     }
 
-    public var isInteractionsUnderneafDisabled: Bool = false
+    var isAnimated: Bool = true {
+        didSet {
+            update()
+        }
+    }
 
-    public override init(frame: CGRect) {
+    var isInteractableUnderneaf: Bool = true
+
+    override init(frame: CGRect) {
         super.init(frame: CGRect(x: -6, y: -6, width: frame.width + 12, height: frame.height + 12))
         initialize()
     }
 
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialize()
     }
 
     @available(iOS 13.0, *)
     @available(tvOS 13.0, *)
-    public override init(windowScene: UIWindowScene) {
+    override init(windowScene: UIWindowScene) {
         super.init(windowScene: windowScene)
         initialize()
     }
 
     func initialize() {
         createAnimation()
+        #if os(iOS) // ONLY do that on iOS, to prevent round corners on TVs
         if #available(iOS 11.0, *) {
             adaptCorners()
         }
+        #endif
         update()
     }
 
     @available (iOS 11.0, *)
+    @available (tvOS 11.0, *)
     func adaptCorners() {
         if safeAreaInsets.bottom > 0 {
             layer.cornerRadius = safeAreaInsets.top
@@ -101,8 +159,14 @@ public final class RecordingOverlayWindow: UIWindow {
     }
 
     func update() {
-        layer.borderWidth = length
+        // Change the length
+        self.frame = CGRect(x: -length, y: -length, width: UIScreen.main.bounds.width + length*2, height: UIScreen.main.bounds.height + length*2)
+        layer.borderWidth = length * 2
+
+        // Border color
         layer.borderColor = color.cgColor
+
+        // And animations
         if isAnimated {
             layer.speed = 1
         } else {
@@ -111,22 +175,22 @@ public final class RecordingOverlayWindow: UIWindow {
         }
     }
 
-    public override var isOpaque: Bool {
+    override var isOpaque: Bool {
         get {
             return false
         }
         set {}
     }
 
-    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if !isInteractionsUnderneafDisabled {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if isInteractableUnderneaf {
             return nil
         }
         return super.hitTest(point, with: event)
     }
 
-    public override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if !isInteractionsUnderneafDisabled {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if isInteractableUnderneaf {
             return false
         }
         return super.point(inside: point, with: event)
