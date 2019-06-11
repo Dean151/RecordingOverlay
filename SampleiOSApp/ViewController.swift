@@ -1,9 +1,8 @@
 //
 //  ViewController.swift
-//  SampleApp
+//  SampleiOSApp
 //
-//  Created by Thomas DURAND on 09/06/2019.
-//  Copyright © 2019 Thomas DURAND. All rights reserved.
+//  Created by Thomas DURAND on 11/06/2019.
 //
 
 import RecordingOverlay

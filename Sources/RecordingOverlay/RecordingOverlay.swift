@@ -119,13 +119,6 @@ final class RecordingOverlayWindow: UIWindow {
         initialize()
     }
 
-    @available(iOS 13.0, *)
-    @available(tvOS 13.0, *)
-    override init(windowScene: UIWindowScene) {
-        super.init(windowScene: windowScene)
-        initialize()
-    }
-
     func initialize() {
         createAnimation()
         #if os(iOS) // ONLY do that on iOS, to prevent round corners on TVs
