@@ -14,10 +14,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var changeColorButton: UIButton!
     @IBOutlet weak var changeSizeButton: UIButton!
     @IBOutlet weak var toggleAnimationButton: UIButton!
+    @IBOutlet weak var toggleInterationsButton: UIButton!
     @IBOutlet weak var removeButton: UIButton!
 
     var overlayRelatedButtons: [UIButton] {
-        return [changeColorButton, changeSizeButton, toggleAnimationButton, removeButton]
+        return [changeColorButton, changeSizeButton, toggleAnimationButton, toggleInterationsButton, removeButton]
     }
 
     let colors: [UIColor] = [.red, .green, .blue, .orange, .magenta, .purple]
@@ -25,6 +26,7 @@ class ViewController: UIViewController {
 
     let sizes: [CGFloat] = [3, 6, 9]
     var currentSizeIndex = 1
+    var interactionsEnabled = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +45,16 @@ class ViewController: UIViewController {
     @IBAction func toggleAnimations() {
         RecordingOverlay.isAnimated = !RecordingOverlay.isAnimated
         toggleAnimationButton.setTitle(RecordingOverlay.isAnimated ? "Disable animation" : "Enable animation", for: .normal)
+    }
+
+    @IBAction func toggleInteractions() {
+        if interactionsEnabled {
+            RecordingOverlay.disableInteractionsUnderneaf(exceptFor: [toggleInterationsButton])
+        } else {
+            RecordingOverlay.enableInteractionsUnderneaf()
+        }
+        interactionsEnabled = !interactionsEnabled
+        toggleInterationsButton.setTitle(interactionsEnabled ? "Disable interactions" : "Enable interactions", for: .normal)
     }
 
     @IBAction func changeColor() {
