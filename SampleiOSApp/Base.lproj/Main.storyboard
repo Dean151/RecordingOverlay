@@ -22,42 +22,35 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2T-Pp-djN">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="136.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="163.5"/>
                                         <state key="normal" title="Add overlay"/>
                                         <connections>
                                             <action selector="addOverlay" destination="BYZ-38-t0r" eventType="touchUpInside" id="O8q-0J-Qi7"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KHQ-0U-hJb">
-                                        <rect key="frame" x="0.0" y="136.5" width="414" height="136"/>
-                                        <state key="normal" title="Add subview"/>
-                                        <connections>
-                                            <action selector="addSubview" destination="BYZ-38-t0r" eventType="touchUpInside" id="USh-50-nZb"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RzP-Zd-Yk6">
-                                        <rect key="frame" x="0.0" y="272.5" width="414" height="136.5"/>
+                                        <rect key="frame" x="0.0" y="163.5" width="414" height="163.5"/>
                                         <state key="normal" title="Change color"/>
                                         <connections>
                                             <action selector="changeColor" destination="BYZ-38-t0r" eventType="touchUpInside" id="snW-CP-XQo"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdx-L6-pmU">
-                                        <rect key="frame" x="0.0" y="409" width="414" height="136.5"/>
+                                        <rect key="frame" x="0.0" y="327" width="414" height="164"/>
                                         <state key="normal" title="Change size"/>
                                         <connections>
                                             <action selector="changeSize" destination="BYZ-38-t0r" eventType="touchUpInside" id="dCi-3u-Rva"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="txl-Ba-Sfu">
-                                        <rect key="frame" x="0.0" y="545.5" width="414" height="136"/>
+                                        <rect key="frame" x="0.0" y="491" width="414" height="163.5"/>
                                         <state key="normal" title="Disable Animation"/>
                                         <connections>
                                             <action selector="toggleAnimations" destination="BYZ-38-t0r" eventType="touchUpInside" id="XbX-uE-Zvh"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cn9-22-dR0">
-                                        <rect key="frame" x="0.0" y="681.5" width="414" height="136.5"/>
+                                        <rect key="frame" x="0.0" y="654.5" width="414" height="163.5"/>
                                         <state key="normal" title="Remove overlay"/>
                                         <connections>
                                             <action selector="removeOverlay" destination="BYZ-38-t0r" eventType="touchUpInside" id="gQb-QM-Swq"/>
@@ -77,7 +70,6 @@
                     </view>
                     <connections>
                         <outlet property="addButton" destination="v2T-Pp-djN" id="Gpr-9V-5jK"/>
-                        <outlet property="addSubviewButton" destination="KHQ-0U-hJb" id="Ryn-cn-Ox4"/>
                         <outlet property="changeColorButton" destination="RzP-Zd-Yk6" id="tQl-z9-WVY"/>
                         <outlet property="changeSizeButton" destination="cdx-L6-pmU" id="2Ax-7e-l66"/>
                         <outlet property="removeButton" destination="cn9-22-dR0" id="9Vu-ZV-kez"/>

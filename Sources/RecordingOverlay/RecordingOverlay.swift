@@ -12,12 +12,10 @@ public final class RecordingOverlay {
     /// - Parameter color: The color of the overlay's border. Defaults to .red
     /// - Parameter length: The length of the visible border in points. Defaults to 6.0
     /// - Parameter animated: Should the overlay have the "breathe" animation enabled. Defaults to true
-    /// - Parameter interactableUnderneaf: Should the interactions be enabled under the overlay? Defaults to true
-    /// Returns UIWindow instance created. Its possible to add your own subview within it.
-    @discardableResult
-    public static func add(color: UIColor = .red, length: CGFloat = 6, animated: Bool = true, interactableUnderneaf: Bool = true) -> UIWindow? {
+    /// - Parameter interactableUnderneaf: Should the interactions be enabled under the overlay? Defaults to trueb
+    public static func add(color: UIColor = .red, length: CGFloat = 6, animated: Bool = true, interactableUnderneaf: Bool = true) {
         guard let window = mainWindow else {
-            return nil
+            return
         }
 
         let overlay = RecordingOverlayWindow(frame: window.frame)
@@ -28,10 +26,7 @@ public final class RecordingOverlay {
 
         overlay.isHidden = false
         self.overlay = overlay
-
-        return overlay
     }
-
 
     /// Will remove any existing overlay, if any
     public static func remove() {
@@ -162,8 +157,8 @@ final class RecordingOverlayWindow: UIWindow {
         if safeAreaInsets.bottom > 0 {
             borderLayer.cornerRadius = safeAreaInsets.top
 
-            // EXCEPTION for iPhone XR that is weird
-            if safeAreaInsets.top == 44 && UIScreen.main.scale == 2 && UIScreen.main.nativeBounds.size == CGSize(width: 828, height: 1792) {
+            // EXCEPTION for iPhone XR that has weird corners comparing to the safeArea value
+            if safeAreaInsets.top == 44 && safeAreaInsets.bottom == 34 && UIScreen.main.scale == 2 {
                 self.borderLayer.cornerRadius += 4
             }
         }
@@ -208,24 +203,12 @@ final class RecordingOverlayWindow: UIWindow {
             return super.hitTest(point, with: event)
         }
 
-        for view in subviews.reversed() where view != borderView {
-            if let test = view.hitTest(convert(point, to: view), with: event) {
-                return test
-            }
-        }
-
         return nil
     }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         if !isInteractableUnderneaf {
             return super.point(inside: point, with: event)
-        }
-
-        for view in subviews.reversed() where view != borderView {
-            if view.point(inside: convert(point, to: view), with: event) {
-                return true
-            }
         }
 
         return false
