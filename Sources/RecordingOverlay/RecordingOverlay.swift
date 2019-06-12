@@ -83,7 +83,7 @@ public final class RecordingOverlay {
 
 extension RecordingOverlay {
     static var mainWindow: UIWindow? {
-        // TODO: handle window sessions
+        // TODO: handle window sessions for iOS 13 support
 
         return UIApplication.shared.delegate?.window ?? nil
     }
@@ -128,9 +128,23 @@ final class RecordingOverlayWindow: UIWindow {
         initialize()
     }
 
+    // TODO: add session init override for iOS 13 support
+
+    var screenBounds: CGRect {
+        switch UIApplication.shared.statusBarOrientation {
+        case .landscapeLeft, .landscapeRight:
+            return CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
+        default:
+            return UIScreen.main.bounds
+        }
+    }
+
     func initialize() {
-        self.borderView = UIView(frame: bounds)
+        self.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
+
+        self.borderView = UIView(frame: screenBounds)
         borderView.isUserInteractionEnabled = false
+        borderView.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
         addSubview(borderView)
 
         createAnimation()
@@ -149,7 +163,7 @@ final class RecordingOverlayWindow: UIWindow {
             borderLayer.cornerRadius = safeAreaInsets.top
 
             // EXCEPTION for iPhone XR that is weird
-            if safeAreaInsets.top == 44 && UIScreen.main.scale == 2 && UIScreen.main.bounds.size == CGSize(width: 828, height: 1792) {
+            if safeAreaInsets.top == 44 && UIScreen.main.scale == 2 && UIScreen.main.nativeBounds.size == CGSize(width: 828, height: 1792) {
                 self.borderLayer.cornerRadius += 4
             }
         }
@@ -166,7 +180,7 @@ final class RecordingOverlayWindow: UIWindow {
 
     func update() {
         // Change the length
-        frame = CGRect(x: -length, y: -length, width: UIScreen.main.bounds.width + length*2, height: UIScreen.main.bounds.height + length*2)
+        frame = CGRect(x: -length, y: -length, width: screenBounds.width + length*2, height: screenBounds.height + length*2)
         borderView.frame = bounds
         borderLayer.borderWidth = length * 2
 
