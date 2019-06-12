@@ -13,9 +13,11 @@ public final class RecordingOverlay {
     /// - Parameter length: The length of the visible border in points. Defaults to 6.0
     /// - Parameter animated: Should the overlay have the "breathe" animation enabled. Defaults to true
     /// - Parameter interactableUnderneaf: Should the interactions be enabled under the overlay? Defaults to true
-    public static func add(color: UIColor = .red, length: CGFloat = 6, animated: Bool = true, interactableUnderneaf: Bool = true) {
+    /// Returns UIWindow instance created. Its possible to add your own subview within it.
+    @discardableResult
+    public static func add(color: UIColor = .red, length: CGFloat = 6, animated: Bool = true, interactableUnderneaf: Bool = true) -> UIWindow? {
         guard let window = mainWindow else {
-            return
+            return nil
         }
 
         let overlay = RecordingOverlayWindow(frame: window.frame)
@@ -26,6 +28,8 @@ public final class RecordingOverlay {
 
         overlay.isHidden = false
         self.overlay = overlay
+
+        return overlay
     }
 
 
