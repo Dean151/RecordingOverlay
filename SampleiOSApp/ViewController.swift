@@ -10,8 +10,6 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var subview: UIView?
-
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var changeColorButton: UIButton!
     @IBOutlet weak var changeSizeButton: UIButton!
