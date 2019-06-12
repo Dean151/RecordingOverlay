@@ -82,6 +82,11 @@ extension RecordingOverlay {
 
         return UIApplication.shared.delegate?.window ?? nil
     }
+
+    static func getWindow(for view: UIView?) -> UIWindow? {
+        if view == nil { return nil }
+        return (view?.superview as? UIWindow?) ?? getWindow(for: view?.superview)
+    }
 }
 
 // MARK: Private subclass of UIWindow
@@ -199,13 +204,39 @@ final class RecordingOverlayWindow: UIWindow {
         set {}
     }
 
+    func rotate(_ point: CGPoint) -> CGPoint {
+        switch UIApplication.shared.statusBarOrientation {
+        case .portraitUpsideDown:
+            return CGPoint(
+                x: screenBounds.width - point.x,
+                y: screenBounds.height - point.y
+            )
+        case .landscapeLeft:
+            return CGPoint(
+                x: screenBounds.height - point.y,
+                y: point.x
+            )
+        case .landscapeRight:
+            return CGPoint(
+                x: point.y,
+                y: screenBounds.width - point.x
+            )
+        default:
+            return point
+        }
+    }
+
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+
+        print("BEFORE: \(point)")
+        print("AFTER: \(rotate(point))")
+
         if isInteractableUnderneaf {
             return nil
         }
 
         for view in interactableViews {
-            if let test = view.hitTest(convert(point, to: view), with: event) {
+            if let test = view.hitTest(convert(rotate(point), to: view), with: event) {
                 return test
             }
         }
@@ -219,7 +250,7 @@ final class RecordingOverlayWindow: UIWindow {
         }
 
         for view in interactableViews {
-            if view.point(inside: convert(point, to: view), with: event) {
+            if view.point(inside: convert(convert(rotate(point), to: view), to: view), with: event) {
                 return true
             }
         }

@@ -10,6 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .all
+    }
+
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var changeColorButton: UIButton!
     @IBOutlet weak var changeSizeButton: UIButton!
