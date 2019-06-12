@@ -12,8 +12,7 @@ public final class RecordingOverlay {
     /// - Parameter color: The color of the overlay's border. Defaults to .red
     /// - Parameter length: The length of the visible border in points. Defaults to 6.0
     /// - Parameter animated: Should the overlay have the "breathe" animation enabled. Defaults to true
-    /// - Parameter interactableUnderneaf: Should the interactions be enabled under the overlay? Defaults to trueb
-    public static func add(color: UIColor = .red, length: CGFloat = 6, animated: Bool = true, interactableUnderneaf: Bool = true) {
+    public static func add(color: UIColor = .red, length: CGFloat = 6, animated: Bool = true) {
         guard let window = mainWindow else {
             return
         }
@@ -22,7 +21,6 @@ public final class RecordingOverlay {
         overlay.color = color
         overlay.length = length
         overlay.isAnimated = animated
-        overlay.isInteractableUnderneaf = interactableUnderneaf
 
         overlay.isHidden = false
         self.overlay = overlay
@@ -63,14 +61,16 @@ public final class RecordingOverlay {
         }
     }
 
-    /// The interaction state beneath the overlay
-    public static var isInteractableUnderneaf: Bool {
-        get {
-            return overlay?.isInteractableUnderneaf ?? true
-        }
-        set {
-            overlay?.isInteractableUnderneaf = newValue
-        }
+    /// Forbid any interaction to go threw the recording layer.
+    /// - Parameter views: views that are whitelisted and will receive events
+    public static func disableInteractionsUnderneaf(exceptFor views: [UIView] = []) {
+        overlay?.interactableViews = views
+        overlay?.isInteractableUnderneaf = false
+    }
+
+    public static func enableInteractionsUnderneaf() {
+        overlay?.interactableViews = []
+        overlay?.isInteractableUnderneaf = true
     }
 }
 
@@ -112,6 +112,7 @@ final class RecordingOverlayWindow: UIWindow {
     }
 
     var isInteractableUnderneaf: Bool = true
+    var interactableViews: [UIView] = []
 
     override init(frame: CGRect) {
         super.init(frame: CGRect(x: -6, y: -6, width: frame.width + 12, height: frame.height + 12))
@@ -203,12 +204,24 @@ final class RecordingOverlayWindow: UIWindow {
             return super.hitTest(point, with: event)
         }
 
+        for view in interactableViews {
+            if let test = view.hitTest(convert(point, to: view), with: event) {
+                return test
+            }
+        }
+
         return nil
     }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         if !isInteractableUnderneaf {
             return super.point(inside: point, with: event)
+        }
+
+        for view in interactableViews {
+            if view.point(inside: convert(point, to: view), with: event) {
+                return true
+            }
         }
 
         return false
