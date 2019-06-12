@@ -89,6 +89,11 @@ extension RecordingOverlay {
 
 final class RecordingOverlayWindow: UIWindow {
 
+    var borderView: UIView!
+    var borderLayer: CALayer {
+        return borderView.layer
+    }
+
     var length: CGFloat = 6 {
         didSet {
             update()
@@ -120,6 +125,10 @@ final class RecordingOverlayWindow: UIWindow {
     }
 
     func initialize() {
+        self.borderView = UIView(frame: bounds)
+        borderView.isUserInteractionEnabled = false
+        addSubview(borderView)
+
         createAnimation()
         #if os(iOS) // ONLY do that on iOS, to prevent round corners on TVs
         if #available(iOS 11.0, *) {
@@ -133,11 +142,11 @@ final class RecordingOverlayWindow: UIWindow {
     @available (tvOS 11.0, *)
     func adaptCorners() {
         if safeAreaInsets.bottom > 0 {
-            layer.cornerRadius = safeAreaInsets.top
+            borderLayer.cornerRadius = safeAreaInsets.top
 
             // EXCEPTION for iPhone XR that is weird
-            if safeAreaInsets.top == 44 && UIScreen.main.scale == 2 && UIScreen.main.nativeBounds.size == CGSize(width: 828, height: 1792) {
-                layer.cornerRadius += 4
+            if safeAreaInsets.top == 44 && UIScreen.main.scale == 2 && UIScreen.main.bounds.size == CGSize(width: 828, height: 1792) {
+                self.borderLayer.cornerRadius += 4
             }
         }
     }
@@ -148,23 +157,24 @@ final class RecordingOverlayWindow: UIWindow {
         animation.duration = 2
         animation.repeatCount = .greatestFiniteMagnitude
         animation.isRemovedOnCompletion = false
-        layer.add(animation, forKey: "breathe")
+        borderLayer.add(animation, forKey: "breathe")
     }
 
     func update() {
         // Change the length
-        self.frame = CGRect(x: -length, y: -length, width: UIScreen.main.bounds.width + length*2, height: UIScreen.main.bounds.height + length*2)
-        layer.borderWidth = length * 2
+        frame = CGRect(x: -length, y: -length, width: UIScreen.main.bounds.width + length*2, height: UIScreen.main.bounds.height + length*2)
+        borderView.frame = bounds
+        borderLayer.borderWidth = length * 2
 
         // Border color
-        layer.borderColor = color.cgColor
+        borderLayer.borderColor = color.cgColor
 
         // And animations
         if isAnimated {
-            layer.speed = 1
+            borderLayer.speed = 1
         } else {
-            layer.speed = 0
-            layer.timeOffset = 0
+            borderLayer.speed = 0
+            borderLayer.timeOffset = 0
         }
     }
 
