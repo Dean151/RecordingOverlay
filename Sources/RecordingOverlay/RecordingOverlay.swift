@@ -227,10 +227,6 @@ final class RecordingOverlayWindow: UIWindow {
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-
-        print("BEFORE: \(point)")
-        print("AFTER: \(rotate(point))")
-
         if isInteractableUnderneaf {
             return nil
         }
