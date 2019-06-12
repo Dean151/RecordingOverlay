@@ -204,16 +204,30 @@ final class RecordingOverlayWindow: UIWindow {
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if isInteractableUnderneaf {
-            return nil
+        if !isInteractableUnderneaf {
+            return super.hitTest(point, with: event)
         }
-        return super.hitTest(point, with: event)
+
+        for view in subviews.reversed() where view != borderView {
+            if let test = view.hitTest(convert(point, to: view), with: event) {
+                return test
+            }
+        }
+
+        return nil
     }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if isInteractableUnderneaf {
-            return false
+        if !isInteractableUnderneaf {
+            return super.point(inside: point, with: event)
         }
-        return super.point(inside: point, with: event)
+
+        for view in subviews.reversed() where view != borderView {
+            if view.point(inside: convert(point, to: view), with: event) {
+                return true
+            }
+        }
+
+        return false
     }
 }

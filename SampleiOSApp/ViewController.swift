@@ -10,14 +10,18 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var overlay: UIWindow?
+    var subview: UIView?
+
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var addSubviewButton: UIButton!
     @IBOutlet weak var changeColorButton: UIButton!
     @IBOutlet weak var changeSizeButton: UIButton!
     @IBOutlet weak var toggleAnimationButton: UIButton!
     @IBOutlet weak var removeButton: UIButton!
 
     var overlayRelatedButtons: [UIButton] {
-        return [changeColorButton, changeSizeButton, toggleAnimationButton, removeButton]
+        return [changeColorButton, addSubviewButton, changeSizeButton, toggleAnimationButton, removeButton]
     }
 
     let colors: [UIColor] = [.red, .green, .blue, .orange, .magenta, .purple]
@@ -33,11 +37,33 @@ class ViewController: UIViewController {
     }
 
     @IBAction func addOverlay() {
-        RecordingOverlay.add()
+        self.overlay = RecordingOverlay.add()
 
         addButton.isEnabled = false
         overlayRelatedButtons.forEach { $0.isEnabled = true }
         setNeedsFocusUpdate()
+    }
+
+    @IBAction func addSubview() {
+
+        let button = UIButton()
+        button.setTitle("Remove subview", for: .normal)
+        button.backgroundColor = .gray
+        button.sizeToFit()
+        button.center.x = overlay?.center.x ?? 0
+        button.frame.origin.y = 20
+        overlay?.addSubview(button)
+        self.subview = button
+
+        button.addTarget(self, action: #selector(self.removeSubview), for: .touchUpInside)
+
+        // Only one subview at a time
+        addSubviewButton.isEnabled = false
+    }
+
+    @objc func removeSubview() {
+        self.subview?.removeFromSuperview()
+        addSubviewButton.isEnabled = true
     }
 
     @IBAction func toggleAnimations() {
