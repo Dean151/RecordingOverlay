@@ -137,7 +137,7 @@ final class RecordingOverlayWindow: UIWindow {
     }
 
     override init(frame: CGRect) {
-        super.init(frame: CGRect(x: -6, y: -6, width: frame.width + 12, height: frame.height + 12))
+        super.init(frame: frame)
         initialize()
     }
 
