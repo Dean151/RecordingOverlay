@@ -18,6 +18,7 @@ public final class RecordingOverlay {
     /// Will show the overlay if not already shown
     /// - Parameter animated: Should the overlay appear with an animation?
     public func show(animated: Bool = true) {
+        overlay.update()
         guard animated, overlay.isHidden else {
             overlay.isHidden = false
             return
@@ -147,17 +148,9 @@ final class RecordingOverlayWindow: UIWindow {
 
     // TODO: add session init override for iOS 13 support
 
-    var screenRealBounds: CGRect {
-        switch UIApplication.shared.statusBarOrientation {
-        case .landscapeLeft, .landscapeRight:
-            return CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
-        default:
-            return UIScreen.main.bounds
-        }
-    }
-
     func initialize() {
         self.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
+        NotificationCenter.default.addObserver(self, selector: #selector(self.update), name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
 
         createAnimation()
         #if os(iOS) // ONLY do that on iOS, to prevent round corners on TVs
@@ -190,9 +183,9 @@ final class RecordingOverlayWindow: UIWindow {
         layer.add(animation, forKey: "breathe")
     }
 
-    func update() {
+    @objc func update() {
         // Change the length
-        frame = CGRect(x: -length, y: -length, width: screenRealBounds.width + length*2, height: screenRealBounds.height + length*2)
+        frame = CGRect(x: -length, y: -length, width: screen.bounds.width + length*2, height: screen.bounds.height + length*2)
         layer.borderWidth = length * 2
 
         // Border color
@@ -214,35 +207,13 @@ final class RecordingOverlayWindow: UIWindow {
         set {}
     }
 
-    func rotate(_ point: CGPoint) -> CGPoint {
-        switch UIApplication.shared.statusBarOrientation {
-        case .portraitUpsideDown:
-            return CGPoint(
-                x: screenRealBounds.width - point.x,
-                y: screenRealBounds.height - point.y
-            )
-        case .landscapeLeft:
-            return CGPoint(
-                x: screenRealBounds.height - point.y,
-                y: point.x
-            )
-        case .landscapeRight:
-            return CGPoint(
-                x: point.y,
-                y: screenRealBounds.width - point.x
-            )
-        default:
-            return point
-        }
-    }
-
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if areInteractionsEnabled {
             return nil
         }
 
         for view in interactableViews {
-            if let test = view.hitTest(convert(rotate(point), to: view), with: event) {
+            if let test = view.hitTest(view.convert(point, from: screen.fixedCoordinateSpace), with: event) {
                 return test
             }
         }
@@ -256,7 +227,7 @@ final class RecordingOverlayWindow: UIWindow {
         }
 
         for view in interactableViews {
-            if view.point(inside: convert(convert(rotate(point), to: view), to: view), with: event) {
+            if view.point(inside: view.convert(point, from: screen.fixedCoordinateSpace), with: event) {
                 return true
             }
         }
