@@ -8,20 +8,21 @@ public final class RecordingOverlay {
 
     var overlay: RecordingOverlayWindow
 
+    /// Initialize an overlay for the provided screen
+    /// - Parameter screen: The screen for the overlay. Defaults to .main
     public init(screen: UIScreen = .main) {
         self.overlay = RecordingOverlayWindow(screen: screen)
         overlay.screen = screen
     }
 
     /// Will add, or replace the overlay with the specified parameters
-    /// - Parameter color: The color of the overlay's border. Defaults to .red
-    /// - Parameter length: The length of the visible border in points. Defaults to 6.0
-    /// - Parameter animated: Should the overlay have the "breathe" animation enabled. Defaults to true
+    /// - Parameter animated: Should the overlay appear with an animation?
     public func add(animated: Bool = true) {
         overlay.isHidden = false
     }
 
-    /// Will remove any existing overlay, if any
+    /// Will remove the overlay if already shown.
+    /// - Parameter animated: Should the overlay disappear with an animation?
     public func remove(animated: Bool = true) {
         self.overlay.isHidden = true
     }
@@ -56,8 +57,10 @@ public final class RecordingOverlay {
         }
     }
 
+    /// Are the all interactions underneaf the layer enabled?
+    /// If returning true, some views may still have interactions enabled depending on the whitelist.
     public var areInteractionsEnabled: Bool {
-        return overlay.isInteractableUnderneaf
+        return overlay.areInteractionsEnabled
     }
 
     /// Forbid any interaction to go threw the recording layer.
@@ -70,32 +73,17 @@ public final class RecordingOverlay {
     /// - Parameter views: whitelisted views that will receive events
     public func disableInteractions(exceptFor views: [UIView] = []) {
         overlay.interactableViews = views
-        overlay.isInteractableUnderneaf = false
+        overlay.areInteractionsEnabled = false
     }
 
     public func enableInteractions() {
-        overlay.isInteractableUnderneaf = true
-    }
-}
-
-// MARK: Private helpers
-
-extension RecordingOverlay {
-    var mainWindow: UIWindow? {
-        // TODO: handle window sessions for iOS 13 support
-
-        return UIApplication.shared.delegate?.window ?? nil
+        overlay.areInteractionsEnabled = true
     }
 }
 
 // MARK: Private subclass of UIWindow
 
 final class RecordingOverlayWindow: UIWindow {
-
-    var borderView: UIView!
-    var borderLayer: CALayer {
-        return borderView.layer
-    }
 
     var length: CGFloat = 6 {
         didSet {
@@ -115,8 +103,13 @@ final class RecordingOverlayWindow: UIWindow {
         }
     }
 
-    var isInteractableUnderneaf: Bool = true
+    var areInteractionsEnabled: Bool = true
     var interactableViews: [UIView] = []
+
+    convenience init(screen: UIScreen) {
+        self.init(frame: screen.bounds)
+        self.screen = screen
+    }
 
     override init(frame: CGRect) {
         super.init(frame: CGRect(x: -6, y: -6, width: frame.width + 12, height: frame.height + 12))
@@ -128,14 +121,9 @@ final class RecordingOverlayWindow: UIWindow {
         initialize()
     }
 
-    convenience init(screen: UIScreen) {
-        self.init(frame: screen.bounds)
-        self.screen = screen
-    }
-
     // TODO: add session init override for iOS 13 support
 
-    var screenBounds: CGRect {
+    var screenRealBounds: CGRect {
         switch UIApplication.shared.statusBarOrientation {
         case .landscapeLeft, .landscapeRight:
             return CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width))
@@ -146,11 +134,6 @@ final class RecordingOverlayWindow: UIWindow {
 
     func initialize() {
         self.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
-
-        self.borderView = UIView(frame: screenBounds)
-        borderView.isUserInteractionEnabled = false
-        borderView.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
-        addSubview(borderView)
 
         createAnimation()
         #if os(iOS) // ONLY do that on iOS, to prevent round corners on TVs
@@ -165,11 +148,11 @@ final class RecordingOverlayWindow: UIWindow {
     @available (tvOS 11.0, *)
     func adaptCorners() {
         if safeAreaInsets.bottom > 0 {
-            borderLayer.cornerRadius = safeAreaInsets.top
+            layer.cornerRadius = safeAreaInsets.top
 
             // EXCEPTION for iPhone XR that has weird corners comparing to the safeArea value
             if safeAreaInsets.top == 44 && safeAreaInsets.bottom == 34 && UIScreen.main.scale == 2 {
-                self.borderLayer.cornerRadius += 4
+                layer.cornerRadius += 4
             }
         }
     }
@@ -180,24 +163,23 @@ final class RecordingOverlayWindow: UIWindow {
         animation.duration = 2
         animation.repeatCount = .greatestFiniteMagnitude
         animation.isRemovedOnCompletion = false
-        borderLayer.add(animation, forKey: "breathe")
+        layer.add(animation, forKey: "breathe")
     }
 
     func update() {
         // Change the length
-        frame = CGRect(x: -length, y: -length, width: screenBounds.width + length*2, height: screenBounds.height + length*2)
-        borderView.frame = bounds
-        borderLayer.borderWidth = length * 2
+        frame = CGRect(x: -length, y: -length, width: screenRealBounds.width + length*2, height: screenRealBounds.height + length*2)
+        layer.borderWidth = length * 2
 
         // Border color
-        borderLayer.borderColor = color.cgColor
+        layer.borderColor = color.cgColor
 
         // And animations
         if isAnimated {
-            borderLayer.speed = 1
+            layer.speed = 1
         } else {
-            borderLayer.speed = 0
-            borderLayer.timeOffset = 0
+            layer.speed = 0
+            layer.timeOffset = 0
         }
     }
 
@@ -212,18 +194,18 @@ final class RecordingOverlayWindow: UIWindow {
         switch UIApplication.shared.statusBarOrientation {
         case .portraitUpsideDown:
             return CGPoint(
-                x: screenBounds.width - point.x,
-                y: screenBounds.height - point.y
+                x: screenRealBounds.width - point.x,
+                y: screenRealBounds.height - point.y
             )
         case .landscapeLeft:
             return CGPoint(
-                x: screenBounds.height - point.y,
+                x: screenRealBounds.height - point.y,
                 y: point.x
             )
         case .landscapeRight:
             return CGPoint(
                 x: point.y,
-                y: screenBounds.width - point.x
+                y: screenRealBounds.width - point.x
             )
         default:
             return point
@@ -231,7 +213,7 @@ final class RecordingOverlayWindow: UIWindow {
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if isInteractableUnderneaf {
+        if areInteractionsEnabled {
             return nil
         }
 
@@ -245,7 +227,7 @@ final class RecordingOverlayWindow: UIWindow {
     }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if isInteractableUnderneaf {
+        if areInteractionsEnabled {
             return false
         }
 
