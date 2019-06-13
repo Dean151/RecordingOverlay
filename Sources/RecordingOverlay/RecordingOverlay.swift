@@ -6,6 +6,7 @@ import UIKit
 /// Interface exposing a few helpers to show an overlay quickly
 public final class RecordingOverlay {
 
+    var autoRetainer: RecordingOverlay?
     var overlay: RecordingOverlayWindow
 
     /// Initialize an overlay for the provided screen
@@ -19,6 +20,7 @@ public final class RecordingOverlay {
     /// - Parameter animated: Should the overlay appear with an animation?
     public func show(animated: Bool = true) {
         overlay.update()
+        autoRetainer = self
         guard animated, overlay.isHidden else {
             overlay.isHidden = false
             return
@@ -45,6 +47,7 @@ public final class RecordingOverlay {
         overlay.layer.add(animation, forKey: "disparition")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
             self?.overlay.isHidden = true
+            self?.autoRetainer = nil
         }
     }
 
