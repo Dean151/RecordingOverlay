@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func addOverlay() {
-        overlay.add()
+        overlay.show()
 
         addButton.isEnabled = false
         overlayRelatedButtons.forEach { $0.isEnabled = true }
@@ -70,7 +70,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func removeOverlay() {
-        overlay.remove()
+        overlay.hide()
 
         addButton.isEnabled = true
         overlayRelatedButtons.forEach { $0.isEnabled = false }

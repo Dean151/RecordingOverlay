@@ -15,16 +15,36 @@ public final class RecordingOverlay {
         overlay.screen = screen
     }
 
-    /// Will add, or replace the overlay with the specified parameters
+    /// Will show the overlay if not already shown
     /// - Parameter animated: Should the overlay appear with an animation?
-    public func add(animated: Bool = true) {
+    public func show(animated: Bool = true) {
+        guard animated, overlay.isHidden else {
+            overlay.isHidden = false
+            return
+        }
+        let animation = CABasicAnimation(keyPath: "borderWidth")
+        animation.timingFunction = .init(name: .easeOut)
+        animation.fromValue = 0
+        animation.toValue = length * 2
+        overlay.layer.add(animation, forKey: "apparition")
         overlay.isHidden = false
     }
 
-    /// Will remove the overlay if already shown.
+    /// Will hide the overlay if already shown.
     /// - Parameter animated: Should the overlay disappear with an animation?
-    public func remove(animated: Bool = true) {
-        self.overlay.isHidden = true
+    public func hide(animated: Bool = true) {
+        guard animated, !overlay.isHidden else {
+            overlay.isHidden = true
+            return
+        }
+        let animation = CABasicAnimation(keyPath: "borderWidth")
+        animation.timingFunction = .init(name: .easeIn)
+        animation.fromValue = length * 2
+        animation.toValue = 0
+        overlay.layer.add(animation, forKey: "disparition")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+            self?.overlay.isHidden = true
+        }
     }
 
     /// The current color of the overlay
@@ -64,18 +84,22 @@ public final class RecordingOverlay {
     }
 
     /// Forbid any interaction to go threw the recording layer.
+    /// Please note that the whitelisted views list will be overriden
     /// - Parameter view: a whitelisted view that will receive events
     public func disableInteractions(exceptFor view: UIView? = nil) {
         disableInteractions(exceptFor: [view].compactMap { $0 })
     }
 
     /// Forbid any interaction to go threw the recording layer.
+    /// Please note that the whitelisted views list will be overriden
     /// - Parameter views: whitelisted views that will receive events
     public func disableInteractions(exceptFor views: [UIView] = []) {
         overlay.interactableViews = views
         overlay.areInteractionsEnabled = false
     }
 
+    /// Will re-allow the interactions to go threw the recording layer.
+    /// This will not erase the whitelisted views list
     public func enableInteractions() {
         overlay.areInteractionsEnabled = true
     }
