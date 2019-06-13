@@ -10,9 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .all
-    }
+    let overlay = RecordingOverlay()
 
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var changeColorButton: UIButton!
@@ -30,7 +28,6 @@ class ViewController: UIViewController {
 
     let sizes: [CGFloat] = [3, 6, 9]
     var currentSizeIndex = 1
-    var interactionsEnabled = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +36,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func addOverlay() {
-        RecordingOverlay.add()
+        overlay.add()
 
         addButton.isEnabled = false
         overlayRelatedButtons.forEach { $0.isEnabled = true }
@@ -47,37 +44,40 @@ class ViewController: UIViewController {
     }
 
     @IBAction func toggleAnimations() {
-        RecordingOverlay.isAnimated = !RecordingOverlay.isAnimated
-        toggleAnimationButton.setTitle(RecordingOverlay.isAnimated ? "Disable animation" : "Enable animation", for: .normal)
+        overlay.isAnimated.toggle()
+        toggleAnimationButton.setTitle(overlay.isAnimated ? "Disable animation" : "Enable animation", for: .normal)
     }
 
     @IBAction func toggleInteractions() {
-        if interactionsEnabled {
-            RecordingOverlay.disableInteractionsUnderneaf(exceptFor: [toggleInterationsButton])
+        if overlay.areInteractionsEnabled {
+            overlay.disableInteractions(exceptFor: toggleInterationsButton)
         } else {
-            RecordingOverlay.enableInteractionsUnderneaf()
+            overlay.enableInteractions()
         }
-        interactionsEnabled = !interactionsEnabled
-        toggleInterationsButton.setTitle(interactionsEnabled ? "Disable interactions" : "Enable interactions", for: .normal)
+        toggleInterationsButton.setTitle(overlay.areInteractionsEnabled ? "Disable interactions" : "Enable interactions", for: .normal)
     }
 
     @IBAction func changeColor() {
         currentColorIndex += 1
         currentColorIndex %= colors.count
-        RecordingOverlay.color = colors[currentColorIndex]
+        overlay.color = colors[currentColorIndex]
     }
 
     @IBAction func changeSize() {
         currentSizeIndex += 1
         currentSizeIndex %= sizes.count
-        RecordingOverlay.length = sizes[currentSizeIndex]
+        overlay.length = sizes[currentSizeIndex]
     }
 
     @IBAction func removeOverlay() {
-        RecordingOverlay.remove()
+        overlay.remove()
 
         addButton.isEnabled = true
         overlayRelatedButtons.forEach { $0.isEnabled = false }
         setNeedsFocusUpdate()
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .all
     }
 }

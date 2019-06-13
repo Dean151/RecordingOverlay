@@ -6,86 +6,85 @@ import UIKit
 /// Interface exposing a few helpers to show an overlay quickly
 public final class RecordingOverlay {
 
-    static var overlay: RecordingOverlayWindow?
+    var overlay: RecordingOverlayWindow
+
+    public init(screen: UIScreen = .main) {
+        self.overlay = RecordingOverlayWindow(screen: screen)
+        overlay.screen = screen
+    }
 
     /// Will add, or replace the overlay with the specified parameters
     /// - Parameter color: The color of the overlay's border. Defaults to .red
     /// - Parameter length: The length of the visible border in points. Defaults to 6.0
     /// - Parameter animated: Should the overlay have the "breathe" animation enabled. Defaults to true
-    public static func add(color: UIColor = .red, length: CGFloat = 6, animated: Bool = true) {
-        guard let window = mainWindow else {
-            return
-        }
-
-        let overlay = RecordingOverlayWindow(frame: window.frame)
-        overlay.color = color
-        overlay.length = length
-        overlay.isAnimated = animated
-
+    public func add(animated: Bool = true) {
         overlay.isHidden = false
-        self.overlay = overlay
     }
 
     /// Will remove any existing overlay, if any
-    public static func remove() {
-        self.overlay?.isHidden = true
-        self.overlay = nil
+    public func remove(animated: Bool = true) {
+        self.overlay.isHidden = true
     }
 
     /// The current color of the overlay
-    public static var color: UIColor {
+    public var color: UIColor {
         get {
-            return overlay?.color ?? .clear
+            return overlay.color
         }
         set {
-            overlay?.color = newValue
+            overlay.color = newValue
         }
     }
 
-    public static var length: CGFloat {
+    /// The length of the border for the overlay
+    public var length: CGFloat {
         get {
-            return overlay?.length ?? 0
+            return overlay.length
         }
         set {
-            overlay?.length = newValue
+            overlay.length = newValue
         }
     }
 
     /// The animated state of the overlay
-    public static var isAnimated: Bool {
+    public var isAnimated: Bool {
         get {
-            return overlay?.isAnimated ?? false
+            return overlay.isAnimated
         }
         set {
-            overlay?.isAnimated = newValue
+            overlay.isAnimated = newValue
         }
+    }
+
+    public var areInteractionsEnabled: Bool {
+        return overlay.isInteractableUnderneaf
     }
 
     /// Forbid any interaction to go threw the recording layer.
-    /// - Parameter views: views that are whitelisted and will receive events
-    public static func disableInteractionsUnderneaf(exceptFor views: [UIView] = []) {
-        overlay?.interactableViews = views
-        overlay?.isInteractableUnderneaf = false
+    /// - Parameter view: a whitelisted view that will receive events
+    public func disableInteractions(exceptFor view: UIView? = nil) {
+        disableInteractions(exceptFor: [view].compactMap { $0 })
     }
 
-    public static func enableInteractionsUnderneaf() {
-        overlay?.interactableViews = []
-        overlay?.isInteractableUnderneaf = true
+    /// Forbid any interaction to go threw the recording layer.
+    /// - Parameter views: whitelisted views that will receive events
+    public func disableInteractions(exceptFor views: [UIView] = []) {
+        overlay.interactableViews = views
+        overlay.isInteractableUnderneaf = false
+    }
+
+    public func enableInteractions() {
+        overlay.isInteractableUnderneaf = true
     }
 }
 
 // MARK: Private helpers
 
 extension RecordingOverlay {
-    static var mainWindow: UIWindow? {
+    var mainWindow: UIWindow? {
         // TODO: handle window sessions for iOS 13 support
 
         return UIApplication.shared.delegate?.window ?? nil
-    }
-
-    static func getWindow(for view: UIView?) -> UIWindow? {
-        if view == nil { return nil }
-        return (view?.superview as? UIWindow?) ?? getWindow(for: view?.superview)
     }
 }
 
@@ -127,6 +126,11 @@ final class RecordingOverlayWindow: UIWindow {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialize()
+    }
+
+    convenience init(screen: UIScreen) {
+        self.init(frame: screen.bounds)
+        self.screen = screen
     }
 
     // TODO: add session init override for iOS 13 support
