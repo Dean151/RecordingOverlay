@@ -160,18 +160,8 @@ final class RecordingOverlayWindow: UIWindow {
     var areInteractionsEnabled: Bool = true
     var interactableViews: [UIView] = []
 
-    static func frame(for screen: UIScreen, with length: CGFloat = 6) -> CGRect {
-        return CGRect(
-            x: -length,
-            y: -length,
-            // NativeBounds is not orientation dependant, so it's a great start
-            width: screen.nativeBounds.width / screen.scale + length*2,
-            height: screen.nativeBounds.height / screen.scale + length*2
-        )
-    }
-
     convenience init(screen: UIScreen) {
-        self.init(frame: RecordingOverlayWindow.frame(for: screen))
+        self.init(frame: RecordingOverlay.frame(for: screen))
         self.screen = screen
     }
 
@@ -188,7 +178,6 @@ final class RecordingOverlayWindow: UIWindow {
     // TODO: add session init override for iOS 13 support
 
     func initialize() {
-        self.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
         NotificationCenter.default.addObserver(self, selector: #selector(self.update), name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
 
         createAnimation()
@@ -223,8 +212,12 @@ final class RecordingOverlayWindow: UIWindow {
     }
 
     @objc func update() {
+        if RecordingOverlay.willAutorotate {
+            transform = .init(rotationAngle: RecordingOverlay.rotationAngle(for: UIApplication.shared.statusBarOrientation))
+        }
+
         // Change the length
-        frame = RecordingOverlayWindow.frame(for: screen, with: length)
+        frame = RecordingOverlay.frame(for: screen, with: length)
         layer.borderWidth = length * 2
 
         // Border color
@@ -272,5 +265,61 @@ final class RecordingOverlayWindow: UIWindow {
         }
 
         return super.point(inside: point, with: event)
+    }
+}
+
+// MARK: - Static helpers
+
+extension RecordingOverlay {
+
+    static var willAutorotate: Bool {
+        // When it's an iPad with Storyboard, all orientations enabled, and not requiring fullscreen
+        // The UIWindow will rotate on it's own.
+        // We need to detect that to make sure it will have a correct window
+        guard UIDevice.current.userInterfaceIdiom == .pad else {
+            return false
+        }
+
+        let window = UIApplication.shared.delegate?.window ?? nil
+        guard UIApplication.shared.supportedInterfaceOrientations(for: window) == .all else {
+            return false
+        }
+
+        let info = Bundle.main.infoDictionary ?? [:]
+        guard info["UIRequiresFullScreen"] as? Bool != true else {
+            return false
+        }
+        guard info["UILaunchStoryboardName"] != nil else {
+            return false
+        }
+        return true
+    }
+
+    static func frame(for screen: UIScreen, with length: CGFloat = 6) -> CGRect {
+        let size = CGSize(
+            width: willAutorotate ? screen.bounds.width : screen.nativeBounds.width / screen.scale,
+            height: willAutorotate ? screen.bounds.height : screen.nativeBounds.height / screen.scale
+        )
+
+        return CGRect(
+            x: -length,
+            y: -length,
+            // NativeBounds is not orientation dependant, so it's a great start
+            width: size.width + length * 2,
+            height: size.height + length * 2
+        )
+    }
+
+    static func rotationAngle(for orientation: UIInterfaceOrientation) -> CGFloat {
+        switch orientation {
+        case .portraitUpsideDown:
+            return .pi
+        case .landscapeLeft:
+            return .pi / 2
+        case .landscapeRight:
+            return -.pi / 2
+        default:
+            return 0
+        }
     }
 }
