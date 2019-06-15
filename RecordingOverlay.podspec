@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "RecordingOverlay"
-  spec.version      = "0.1.0"
+  spec.version      = "0.3.0"
   spec.summary      = "Creates an bordered overlay around the screen."
 
   spec.description  = <<-DESC

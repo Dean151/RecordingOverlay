@@ -29,6 +29,7 @@ public final class RecordingOverlay {
 
     var autoRetainer: RecordingOverlay?
     var overlay: RecordingOverlayWindow
+    weak var keyWindow: UIWindow?
 
     /// Initialize an overlay for the provided screen
     /// - Parameter screen: The screen for the overlay. Defaults to .main
@@ -36,19 +37,29 @@ public final class RecordingOverlay {
         self.overlay = RecordingOverlayWindow(screen: screen)
     }
 
+    /// Will initialiaze and show the overlay
+    /// - Parameter screen: The screen for the overlay. Defaults to .main
+    /// - Parameter animated: Should the overlay appear with an animation?
+    @discardableResult
+    public static func show(on screen: UIScreen = .main, animated: Bool = true) -> RecordingOverlay {
+        return RecordingOverlay().show()
+    }
+
     /// Will show the overlay if not already shown
     /// - Parameter animated: Should the overlay appear with an animation?
-    public func show(animated: Bool = true) {
+    @discardableResult
+    public func show(animated: Bool = true) -> RecordingOverlay {
         overlay.update()
         autoRetainer = self
         guard animated, overlay.isHidden else {
             overlay.isHidden = false
-            return
+            return self
         }
         CATransaction.begin()
         overlay.isHidden = false
         overlay.layer.add(animation(showing: true), forKey: "apparition")
         CATransaction.commit()
+        return self
     }
 
     /// Will hide the overlay if already shown.
@@ -67,14 +78,6 @@ public final class RecordingOverlay {
         overlay.layer.borderWidth = 0 // Make it 0 border for it stays hidden at the end
         overlay.layer.add(animation(showing: false), forKey: "disparition")
         CATransaction.commit()
-    }
-
-    func animation(showing: Bool) -> CAAnimation {
-        let animation = CABasicAnimation(keyPath: "borderWidth")
-        animation.timingFunction = .init(name: showing ? .easeOut : .easeIn)
-        animation.fromValue = showing ? 0 : length * 2
-        animation.toValue = showing ? length * 2 : 0
-        return animation
     }
 
     /// The current color of the overlay
@@ -126,12 +129,30 @@ public final class RecordingOverlay {
     public func disableInteractions(exceptFor views: [UIView] = []) {
         overlay.interactableViews = views
         overlay.areInteractionsEnabled = false
+
+        keyWindow = UIApplication.shared.keyWindow
+        if keyWindow != nil {
+            overlay.makeKey()
+        }
     }
 
     /// Will re-allow the interactions to go threw the recording layer.
     /// This will not erase the whitelisted views list
     public func enableInteractions() {
         overlay.areInteractionsEnabled = true
+        keyWindow?.makeKey()
+    }
+}
+
+// MARK: Private helpers
+
+extension RecordingOverlay {
+    func animation(showing: Bool) -> CAAnimation {
+        let animation = CABasicAnimation(keyPath: "borderWidth")
+        animation.timingFunction = .init(name: showing ? .easeOut : .easeIn)
+        animation.fromValue = showing ? 0 : length * 2
+        animation.toValue = showing ? length * 2 : 0
+        return animation
     }
 }
 
