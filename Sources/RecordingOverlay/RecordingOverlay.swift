@@ -1,3 +1,24 @@
+// MIT License
+//
+// Copyright (c) 2019 Thomas Durand
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import UIKit
 
@@ -13,7 +34,6 @@ public final class RecordingOverlay {
     /// - Parameter screen: The screen for the overlay. Defaults to .main
     public init(screen: UIScreen = .main) {
         self.overlay = RecordingOverlayWindow(screen: screen)
-        overlay.screen = screen
     }
 
     /// Will show the overlay if not already shown
@@ -25,12 +45,10 @@ public final class RecordingOverlay {
             overlay.isHidden = false
             return
         }
-        let animation = CABasicAnimation(keyPath: "borderWidth")
-        animation.timingFunction = .init(name: .easeOut)
-        animation.fromValue = 0
-        animation.toValue = length * 2
-        overlay.layer.add(animation, forKey: "apparition")
+        CATransaction.begin()
         overlay.isHidden = false
+        overlay.layer.add(animation(showing: true), forKey: "apparition")
+        CATransaction.commit()
     }
 
     /// Will hide the overlay if already shown.
@@ -40,15 +58,23 @@ public final class RecordingOverlay {
             overlay.isHidden = true
             return
         }
-        let animation = CABasicAnimation(keyPath: "borderWidth")
-        animation.timingFunction = .init(name: .easeIn)
-        animation.fromValue = length * 2
-        animation.toValue = 0
-        overlay.layer.add(animation, forKey: "disparition")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+
+        CATransaction.begin()
+        CATransaction.setCompletionBlock({[weak self] in
             self?.overlay.isHidden = true
             self?.autoRetainer = nil
-        }
+        })
+        overlay.layer.borderWidth = 0 // Make it 0 border for it stays hidden at the end
+        overlay.layer.add(animation(showing: false), forKey: "disparition")
+        CATransaction.commit()
+    }
+
+    func animation(showing: Bool) -> CAAnimation {
+        let animation = CABasicAnimation(keyPath: "borderWidth")
+        animation.timingFunction = .init(name: showing ? .easeOut : .easeIn)
+        animation.fromValue = showing ? 0 : length * 2
+        animation.toValue = showing ? length * 2 : 0
+        return animation
     }
 
     /// The current color of the overlay
@@ -112,7 +138,7 @@ public final class RecordingOverlay {
 // MARK: Private subclass of UIWindow
 
 final class RecordingOverlayWindow: UIWindow {
-
+    
     var length: CGFloat = 6 {
         didSet {
             update()
@@ -134,8 +160,18 @@ final class RecordingOverlayWindow: UIWindow {
     var areInteractionsEnabled: Bool = true
     var interactableViews: [UIView] = []
 
+    static func frame(for screen: UIScreen, with length: CGFloat = 6) -> CGRect {
+        return CGRect(
+            x: -length,
+            y: -length,
+            // NativeBounds is not orientation dependant, so it's a great start
+            width: screen.nativeBounds.width / screen.scale + length*2,
+            height: screen.nativeBounds.height / screen.scale + length*2
+        )
+    }
+
     convenience init(screen: UIScreen) {
-        self.init(frame: screen.bounds)
+        self.init(frame: RecordingOverlayWindow.frame(for: screen))
         self.screen = screen
     }
 
@@ -188,7 +224,7 @@ final class RecordingOverlayWindow: UIWindow {
 
     @objc func update() {
         // Change the length
-        frame = CGRect(x: -length, y: -length, width: screen.bounds.width + length*2, height: screen.bounds.height + length*2)
+        frame = RecordingOverlayWindow.frame(for: screen, with: length)
         layer.borderWidth = length * 2
 
         // Border color

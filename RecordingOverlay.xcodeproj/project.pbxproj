@@ -69,8 +69,6 @@
 		710B555422AFB00900764379 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		710B555622AFB00900764379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		710B556D22AFB14700764379 /* RecordingOverlay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecordingOverlay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		710B556F22AFB14700764379 /* RecordingOverlay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecordingOverlay.h; sourceTree = "<group>"; };
-		710B557022AFB14700764379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		710B557A22AFB34600764379 /* RecordingOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingOverlay.h; path = Sources/RecordingOverlay.h; sourceTree = "<group>"; };
 		710B557B22AFB34600764379 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Info.plist; sourceTree = "<group>"; };
 		OBJ_12 /* RecordingOverlayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlayTests.swift; sourceTree = "<group>"; };
@@ -131,15 +129,6 @@
 			path = SampleTvOSApp;
 			sourceTree = "<group>";
 		};
-		710B556E22AFB14700764379 /* RecordingOverlay */ = {
-			isa = PBXGroup;
-			children = (
-				710B556F22AFB14700764379 /* RecordingOverlay.h */,
-				710B557022AFB14700764379 /* Info.plist */,
-			);
-			path = RecordingOverlay;
-			sourceTree = "<group>";
-		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,15 +161,14 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
+				OBJ_21 /* RecordingOverlay.podspec */,
+				OBJ_19 /* LICENSE */,
+				OBJ_20 /* README.md */,
 				OBJ_7 /* Sources */,
 				OBJ_10 /* Tests */,
 				710B553622AFAFED00764379 /* SampleiOSApp */,
 				710B554C22AFB00800764379 /* SampleTvOSApp */,
-				710B556E22AFB14700764379 /* RecordingOverlay */,
 				OBJ_14 /* Products */,
-				OBJ_19 /* LICENSE */,
-				OBJ_20 /* README.md */,
-				OBJ_21 /* RecordingOverlay.podspec */,
 			);
 			sourceTree = "<group>";
 		};
@@ -284,17 +272,14 @@
 				TargetAttributes = {
 					710B553422AFAFED00764379 = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 6EL5V5QVB4;
 						ProvisioningStyle = Automatic;
 					};
 					710B554A22AFB00700764379 = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 6EL5V5QVB4;
 						ProvisioningStyle = Automatic;
 					};
 					710B556C22AFB14700764379 = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 6EL5V5QVB4;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -304,7 +289,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -449,7 +433,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6EL5V5QVB4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -515,7 +499,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 6EL5V5QVB4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -576,7 +560,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6EL5V5QVB4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -643,7 +627,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 6EL5V5QVB4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -703,7 +687,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6EL5V5QVB4;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -776,7 +760,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6EL5V5QVB4;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
