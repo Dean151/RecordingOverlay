@@ -171,10 +171,10 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
-				OBJ_6 /* Package.swift */,
-				OBJ_21 /* RecordingOverlay.podspec */,
 				OBJ_19 /* LICENSE */,
 				OBJ_20 /* README.md */,
+				OBJ_6 /* Package.swift */,
+				OBJ_21 /* RecordingOverlay.podspec */,
 				OBJ_7 /* Sources */,
 				OBJ_10 /* Tests */,
 				710B553622AFAFED00764379 /* SampleiOSApp */,
