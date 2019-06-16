@@ -20,10 +20,19 @@
 		710B557522AFB14700764379 /* RecordingOverlay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 710B556D22AFB14700764379 /* RecordingOverlay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		710B557922AFB1F600764379 /* RecordingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* RecordingOverlay.swift */; };
 		710B557E22AFB37500764379 /* RecordingOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 710B557A22AFB34600764379 /* RecordingOverlay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9BAC22522B6172B008EE14B /* RecordingOverlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710B556D22AFB14700764379 /* RecordingOverlay.framework */; };
+		E9BAC22622B6172B008EE14B /* RecordingOverlay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 710B556D22AFB14700764379 /* RecordingOverlay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		710B557222AFB14700764379 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 710B556C22AFB14700764379;
+			remoteInfo = RecordingOverlay;
+		};
+		E9BAC22722B6172B008EE14B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -50,6 +59,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				E9BAC22622B6172B008EE14B /* RecordingOverlay.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9BAC22522B6172B008EE14B /* RecordingOverlay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +247,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E9BAC22822B6172B008EE14B /* PBXTargetDependency */,
 			);
 			name = SampleTvOSApp;
 			productName = SampleTvOSApp;
@@ -369,6 +381,11 @@
 			target = 710B556C22AFB14700764379 /* RecordingOverlay */;
 			targetProxy = 710B557222AFB14700764379 /* PBXContainerItemProxy */;
 		};
+		E9BAC22822B6172B008EE14B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 710B556C22AFB14700764379 /* RecordingOverlay */;
+			targetProxy = E9BAC22722B6172B008EE14B /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -458,6 +475,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fr.thomasdurand.SampleiOSApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -519,6 +537,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fr.thomasdurand.SampleiOSApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -584,6 +603,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fr.thomasdurand.SampleTvOSApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
+				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -646,6 +666,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fr.thomasdurand.SampleTvOSApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
+				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 12.2;
@@ -717,6 +738,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3";
@@ -785,6 +807,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3";
 				VALIDATE_PRODUCT = YES;

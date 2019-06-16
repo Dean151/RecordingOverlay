@@ -31,10 +31,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var changeColorButton: UIButton!
     @IBOutlet weak var changeSizeButton: UIButton!
     @IBOutlet weak var toggleAnimationButton: UIButton!
-    @IBOutlet weak var toggleInterationsButton: UIButton!
+    @IBOutlet weak var toggleInterationsButton: UIButton?
     @IBOutlet weak var removeButton: UIButton!
 
-    var overlayRelatedButtons: [UIButton] {
+    var overlayRelatedButtons: [UIButton?] {
         return [changeColorButton, changeSizeButton, toggleAnimationButton, toggleInterationsButton, removeButton]
     }
 
@@ -47,14 +47,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        overlayRelatedButtons.forEach { $0.isEnabled = false }
+        overlayRelatedButtons.forEach { $0?.isEnabled = false }
     }
 
     @IBAction func addOverlay() {
         overlay.show()
 
         addButton.isEnabled = false
-        overlayRelatedButtons.forEach { $0.isEnabled = true }
+        overlayRelatedButtons.forEach { $0?.isEnabled = true }
         setNeedsFocusUpdate()
     }
 
@@ -63,13 +63,14 @@ class ViewController: UIViewController {
         toggleAnimationButton.setTitle(overlay.isAnimated ? "Disable animation" : "Enable animation", for: .normal)
     }
 
+    @available (iOS 9.0, *)
     @IBAction func toggleInteractions() {
         if overlay.areInteractionsEnabled {
             overlay.disableInteractions(exceptFor: toggleInterationsButton)
         } else {
             overlay.enableInteractions()
         }
-        toggleInterationsButton.setTitle(overlay.areInteractionsEnabled ? "Disable interactions" : "Enable interactions", for: .normal)
+        toggleInterationsButton?.setTitle(overlay.areInteractionsEnabled ? "Disable interactions" : "Enable interactions", for: .normal)
     }
 
     @IBAction func changeColor() {
@@ -88,11 +89,13 @@ class ViewController: UIViewController {
         overlay.hide()
 
         addButton.isEnabled = true
-        overlayRelatedButtons.forEach { $0.isEnabled = false }
+        overlayRelatedButtons.forEach { $0?.isEnabled = false }
         setNeedsFocusUpdate()
     }
 
+    #if !os(tvOS)
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
     }
+    #endif
 }

@@ -112,6 +112,7 @@ public final class RecordingOverlay {
 
     /// Are the all interactions underneaf the layer enabled?
     /// If returning true, some views may still have interactions enabled depending on the whitelist.
+    @available (iOS 9.0, *)
     public var areInteractionsEnabled: Bool {
         return overlay.areInteractionsEnabled
     }
@@ -119,6 +120,7 @@ public final class RecordingOverlay {
     /// Forbid any interaction to go threw the recording layer.
     /// Please note that the whitelisted views list will be overriden
     /// - Parameter view: a whitelisted view that will receive events
+    @available (iOS 9.0, *)
     public func disableInteractions(exceptFor view: UIView? = nil) {
         disableInteractions(exceptFor: [view].compactMap { $0 })
     }
@@ -126,6 +128,7 @@ public final class RecordingOverlay {
     /// Forbid any interaction to go threw the recording layer.
     /// Please note that the whitelisted views list will be overriden
     /// - Parameter views: whitelisted views that will receive events
+    @available (iOS 9.0, *)
     public func disableInteractions(exceptFor views: [UIView] = []) {
         overlay.interactableViews = views
         overlay.areInteractionsEnabled = false
