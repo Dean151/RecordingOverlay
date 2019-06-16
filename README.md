@@ -2,6 +2,10 @@
 
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/ImageUtility.svg?style=flat&label=CocoaPods&colorA=28a745&&colorB=4E4E4E)](https://cocoapods.org/pods/RecordingOverlay)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg?style=flat&colorA=28a745&&colorB=4E4E4E)](https://github.com/Carthage/Carthage)
+[![License](https://img.shields.io/cocoapods/l/RecordingOverlay.svg?style=flat)](http://cocoapods.org/pods/RecordingOverlay)
+[![Platform](https://img.shields.io/cocoapods/p/RecordingOverlay.svg?style=flat)](http://cocoapods.org/pods/RecordingOverlay)
+
+![Overlay preview](https://github.com/Dean151/RecordingOverlay/blob/master/Screenshots/preview.png)
 
 Adds a UIWindow containing a border layer of the color of your choise. Perfect to show an active state, or a recording state.
 
