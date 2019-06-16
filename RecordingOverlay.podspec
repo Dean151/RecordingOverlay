@@ -18,9 +18,10 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target = "9.0"
   spec.tvos.deployment_target = "9.0"
 
+  spec.swift_version = '5.0'
+
   spec.source       = { :git => "https://github.com/Dean151/RecordingOverlay.git", :tag => "#{spec.version}" }
 
-  spec.source_files  = "Sources/**"
-  spec.exclude_files = "SampleApps"
+  spec.source_files  = "Sources/RecordingOverlay/*.swift"
 
 end

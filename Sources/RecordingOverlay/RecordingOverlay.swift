@@ -199,7 +199,9 @@ final class RecordingOverlayWindow: UIWindow {
     // TODO: add session init override for iOS 13 support
 
     func initialize() {
+        #if !os(tvOS)
         NotificationCenter.default.addObserver(self, selector: #selector(self.update), name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
+        #endif
 
         createAnimation()
         #if os(iOS) // ONLY do that on iOS, to prevent round corners on TVs
@@ -233,9 +235,11 @@ final class RecordingOverlayWindow: UIWindow {
     }
 
     @objc func update() {
+        #if !os(tvOS)
         if RecordingOverlay.willAutorotate {
             transform = .init(rotationAngle: RecordingOverlay.rotationAngle(for: UIApplication.shared.statusBarOrientation))
         }
+        #endif
 
         // Change the length
         frame = RecordingOverlay.frame(for: screen, with: length)
@@ -293,6 +297,26 @@ final class RecordingOverlayWindow: UIWindow {
 
 extension RecordingOverlay {
 
+    static func frame(for screen: UIScreen, with length: CGFloat = 6) -> CGRect {
+        #if os(tvOS)
+        let size = screen.bounds.size
+        #else
+        let size = CGSize(
+            width: willAutorotate ? screen.bounds.width : screen.nativeBounds.width / screen.scale,
+            height: willAutorotate ? screen.bounds.height : screen.nativeBounds.height / screen.scale
+        )
+        #endif
+
+        return CGRect(
+            x: -length,
+            y: -length,
+            // NativeBounds is not orientation dependant, so it's a great start
+            width: size.width + length * 2,
+            height: size.height + length * 2
+        )
+    }
+
+    #if !os(tvOS)
     static var willAutorotate: Bool {
         // When it's an iPad with Storyboard, all orientations enabled, and not requiring fullscreen
         // The UIWindow will rotate on it's own.
@@ -316,21 +340,6 @@ extension RecordingOverlay {
         return true
     }
 
-    static func frame(for screen: UIScreen, with length: CGFloat = 6) -> CGRect {
-        let size = CGSize(
-            width: willAutorotate ? screen.bounds.width : screen.nativeBounds.width / screen.scale,
-            height: willAutorotate ? screen.bounds.height : screen.nativeBounds.height / screen.scale
-        )
-
-        return CGRect(
-            x: -length,
-            y: -length,
-            // NativeBounds is not orientation dependant, so it's a great start
-            width: size.width + length * 2,
-            height: size.height + length * 2
-        )
-    }
-
     static func rotationAngle(for orientation: UIInterfaceOrientation) -> CGFloat {
         switch orientation {
         case .portraitUpsideDown:
@@ -343,4 +352,5 @@ extension RecordingOverlay {
             return 0
         }
     }
+    #endif
 }
